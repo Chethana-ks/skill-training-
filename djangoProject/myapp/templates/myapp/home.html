@@ -1,0 +1,93 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tom and Jerry World</title>
+    <link rel="stylesheet" href="{% static 'myapp/style.css' %}">
+</head>
+
+<body>
+
+<header>
+    <h1>🐱 Tom & Jerry World 🐭</h1>
+    <p>Welcome to the world of fun and friendship!</p>
+</header>
+
+<nav>
+    <a href="#home">Home</a>
+    <a href="#characters">Characters</a>
+    <a href="#facts">Fun Facts</a>
+</nav>
+
+<section id="home" class="hero">
+    <h2>Welcome Cartoon Lovers!</h2>
+
+    <img src="{% static 'myapp/Tom and Jerry.jpg' %}"
+         alt="Tom and Jerry">
+
+    <p>Enjoy the funniest adventures of Tom and Jerry!</p>
+
+    <button onclick="showMessage()">Click Me</button>
+    <p id="message"></p>
+</section>
+
+<section id="characters">
+    <h2>Our Favourite Characters</h2>
+
+    <div class="cards">
+        <div class="card">
+            <h3>🐱 Tom</h3>
+            <p>A funny cat who always tries to catch Jerry.</p>
+        </div>
+
+        <div class="card">
+            <h3>🐭 Jerry</h3>
+            <p>A clever little mouse who loves cheese.</p>
+        </div>
+    </div>
+</section>
+
+<section id="facts">
+    <h2>Fun Facts</h2>
+    <p>Tom and Jerry first appeared in 1940.</p>
+    <p>Their adventures are full of comedy and friendship.</p>
+</section>
+<section id="gallery" class="gallery">
+    <h2>🎨 Cartoon Memories</h2>
+    <p>Enjoy some funny moments of Tom and Jerry!</p>
+
+    <div class="gallery-container">
+
+        <div class="gallery-card">
+            <img src="{% static 'myapp/tom1.jpeg' %}" alt="Tom">
+            <h3>Funny Tom</h3>
+        </div>
+
+        <div class="gallery-card">
+            <img src="{% static 'myapp/jerry1.jpeg' %}" alt="Jerry">
+            <h3>Clever Jerry</h3>
+        </div>
+
+        <div class="gallery-card">
+            <img src="{% static 'myapp/tom2.jpg' %}" alt="Tom and Jerry">
+            <h3>Best Friends</h3>
+        </div>
+
+        <div class="gallery-card">
+            <img src="{% static 'myapp/tom3.jpeg' %}" alt="Cartoon moment">
+            <h3>Funny Moments</h3>
+        </div>
+
+    </div>
+</section>
+
+
+<footer>
+    <p>© 2026 Tom & Jerry World | Made with ❤️</p>
+</footer>
+
+<script src="{% static 'myapp/script.js' %}"></script>
+
+</body>
+</html>
