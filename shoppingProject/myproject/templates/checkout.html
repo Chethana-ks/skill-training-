@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | ShopEase</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+<header class="site-header"><a class="brand" href="{% url 'home' %}">ShopEase</a><p>Secure checkout</p></header>
+<nav class="navbar"><a href="{% url 'home' %}">Home</a><a href="{% url 'cart' %}">Cart</a><a href="{% url 'checkout' %}">Checkout</a></nav>
+
+<main class="page-wrap narrow">
+    {% if messages %}
+        <div class="messages">{% for message in messages %}<div class="message {{ message.tags }}">{{ message }}</div>{% endfor %}</div>
+    {% endif %}
+
+    {% if success %}
+        <section class="success-card">
+            <div class="success-icon">✓</div>
+            <h1>Order placed successfully!</h1>
+            <p>Thank you, {{ order.customer_name }}. Your order has been recorded.</p>
+            <p><strong>Order number:</strong> #{{ order.id }}</p>
+            <p><strong>Total:</strong> ₹{{ order.total_amount }}</p>
+            <a class="button" href="{% url 'home' %}">Continue shopping</a>
+        </section>
+    {% else %}
+        <h1 class="page-title">Checkout</h1>
+        <div class="checkout-layout">
+            <section class="form-card">
+                <h2>Delivery details</h2>
+                <form method="post" class="checkout-form">
+                    {% csrf_token %}
+                    <label for="name">Full name</label>
+                    <input id="name" type="text" name="name" maxlength="200" required>
+                    <label for="email">Email address</label>
+                    <input id="email" type="email" name="email" required>
+                    <label for="phone">Phone number</label>
+                    <input id="phone" type="tel" name="phone" maxlength="15" pattern="[0-9+ -]{8,15}" required>
+                    <label for="address">Full delivery address</label>
+                    <textarea id="address" name="address" rows="4" required></textarea>
+                    <button class="button" type="submit">Place order</button>
+                </form>
+            </section>
+            <aside class="summary-card">
+                <h2>Order summary</h2>
+                {% for item in cart_items %}
+                    <div class="summary-line"><span>{{ item.product.name }} × {{ item.quantity }}</span><strong>₹{{ item.subtotal }}</strong></div>
+                {% endfor %}
+                <div class="summary-total"><span>Total</span><strong>₹{{ total }}</strong></div>
+            </aside>
+        </div>
+        <p class="payment-note">Demo checkout: this records the order; it does not collect payment.</p>
+    {% endif %}
+</main>
+<footer class="footer"><strong>ShopEase</strong><small>© 2026 ShopEase</small></footer>
+</body>
+</html>

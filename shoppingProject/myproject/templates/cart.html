@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart | ShopEase</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+<header class="site-header"><a class="brand" href="{% url 'home' %}">ShopEase</a><p>Your shopping cart</p></header>
+<nav class="navbar"><a href="{% url 'home' %}">Home</a><a href="{% url 'cart' %}">Cart</a><a href="{% url 'checkout' %}">Checkout</a></nav>
+
+<main class="page-wrap narrow">
+    {% if messages %}
+        <div class="messages">{% for message in messages %}<div class="message {{ message.tags }}">{{ message }}</div>{% endfor %}</div>
+    {% endif %}
+    <h1 class="page-title">Your cart</h1>
+    {% if cart_items %}
+        <div class="cart-list">
+            {% for item in cart_items %}
+                <article class="cart-row">
+                    <div class="cart-product">
+                        {% if item.product.image_url %}<img src="{{ item.product.image_url }}" alt="{{ item.product.name }}">{% endif %}
+                        <div><h3>{{ item.product.name }}</h3><p>₹{{ item.product.price }} each</p></div>
+                    </div>
+                    <form class="quantity-form" method="post" action="{% url 'update_cart' item.product.id %}">
+                        {% csrf_token %}
+                        <label for="quantity-{{ item.product.id }}">Qty</label>
+                        <input id="quantity-{{ item.product.id }}" type="number" name="quantity" min="0" max="{{ item.product.stock }}" value="{{ item.quantity }}" required>
+                        <button class="button button-small" type="submit">Update</button>
+                    </form>
+                    <strong>₹{{ item.subtotal }}</strong>
+                    <form method="post" action="{% url 'remove_from_cart' item.product.id %}">
+                        {% csrf_token %}
+                        <button class="text-button" type="submit">Remove</button>
+                    </form>
+                </article>
+            {% endfor %}
+        </div>
+        <div class="cart-total"><span>Cart total</span><strong>₹{{ total }}</strong></div>
+        <div class="cart-actions"><a class="button button-secondary" href="{% url 'home' %}">Continue shopping</a><a class="button" href="{% url 'checkout' %}">Proceed to checkout</a></div>
+    {% else %}
+        <div class="empty-state"><h2>Your cart is empty</h2><p>Browse the store and add something you like.</p><a class="button" href="{% url 'home' %}">Start shopping</a></div>
+    {% endif %}
+</main>
+<footer class="footer"><strong>ShopEase</strong><small>© 2026 ShopEase</small></footer>
+</body>
+</html>
